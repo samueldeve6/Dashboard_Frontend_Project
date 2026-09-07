@@ -1,7 +1,7 @@
 import { Geist, Geist_Mono, IBM_Plex_Sans, Roboto } from "next/font/google"
 
 import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeProvider } from "@/components/providers/ThemeProvider"
 import { cn } from "@/lib/utils";
 import AppSidebar from "@/components/AppSidebar";
 import Navbar from "@/components/Navbar";
@@ -22,20 +22,25 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="en" 
       suppressHydrationWarning
       className={cn("antialiased", fontMono.variable, "font-sans", ibmPlexSans.variable, robotoHeading.variable)}
     >
       <body 
         className={`${fontMono.variable} ${ibmPlexSans.variable} ${robotoHeading.variable} antialiased flex min-h-screen w-full`}
       > 
-        
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+          >
           <AppSidebar />
           <main className="min-w-0 flex-1">
             <Navbar/>
             <div className="px-4">{children}</div>
           </main>
-          
+          </ThemeProvider>
       </body>
     </html>
   )

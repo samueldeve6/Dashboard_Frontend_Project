@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/components/providers/ThemeProvider"
 import { cn } from "@/lib/utils";
 import AppSidebar from "@/components/AppSidebar";
 import Navbar from "@/components/Navbar";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { cookies } from "next/headers";
 
 const robotoHeading = Roboto({subsets:['latin'],variable:'--font-heading'});
 
@@ -15,11 +17,17 @@ const fontMono = Geist_Mono({
   variable: "--font-mono",
 })
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+
+  const cookieStore = await cookies()
+  const defaultOpen = cookieStore.get("sidebar_state")?.value === "true"
+
+
+
   return (
     <html
       lang="en" 
@@ -35,11 +43,13 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-          <AppSidebar />
-          <main className="min-w-0 flex-1">
-            <Navbar/>
-            <div className="px-4">{children}</div>
-          </main>
+            <SidebarProvider defaultOpen={defaultOpen}>
+              <AppSidebar />
+              <main className="min-w-0 flex-1">
+                <Navbar/>
+                <div className="px-4">{children}</div>
+              </main>
+            </SidebarProvider>
           </ThemeProvider>
       </body>
     </html>

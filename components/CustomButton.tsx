@@ -16,9 +16,6 @@ const CustomButton = ({
             <button className={cn("text-sm", disabled ? "bg-gray-300" : "bg-blue-500", isRounded && "rounded-full", "p-4")}>
                 Hello
             </button>
-
-
-            
         );   
 };
 
